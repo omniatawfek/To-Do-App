@@ -44,9 +44,7 @@ function addArrayToPage(array){
 tasks.innerHTML = "";
 array.forEach((task) => {
     let div = document.createElement("div");
-    div.className = "task";
-    if(task.completed)
-        div.className = "task done";
+    div.className = task.completed ? "task done": "task";
     div.setAttribute("data-id",task.id);
     div.appendChild(document.createTextNode(task.title));
     let span = document.createElement("span");
@@ -64,8 +62,8 @@ window.localStorage.setItem("tasks",JSON.stringify(array));
 function getDataFromStorage(){
     let data = window.localStorage.getItem("tasks");
     if(data){
-        let tasks = JSON.parse(data);
-        addArrayToPage(tasks);
+        array = JSON.parse(data);
+        addArrayToPage(array);
     }
 }
 
@@ -75,11 +73,26 @@ addTasksToStorsge(array);
 }
 
 function toggleTask(taskId) {
-    taskId = Number(taskId);
-    for(let i = 0; i < array.length; i++)
-    {
-       if(array[i].id === taskId)
-        array[i].completed == false ? (array[i].completed = true) : array[i].completed = false ;
-    }
+    array.forEach(task => {
+        if(task.id === +taskId)
+            task.completed == !task.completed;
+    });
     addTasksToStorsge(array);
 }
+
+let search = document.querySelector("[type = search]");
+
+search.addEventListener("input" ,function(e){
+let searchContent = e.target.value.toLowerCase();
+let allTasks = document.querySelectorAll(".tasks .task");
+
+allTasks.forEach(task => {
+    let taskContent = task.textContent.toLowerCase();
+
+if(taskContent.includes(searchContent)){
+task.classList.remove("hide");
+}
+else
+task.classList.add("hide");
+});
+});

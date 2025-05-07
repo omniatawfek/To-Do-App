@@ -70,3 +70,15 @@ span {
     cursor: pointer;
     border-radius: 5px;
 }
+.search {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+.search label {
+font-size: 25px;
+}
+.hide {
+    display: none;
+}
